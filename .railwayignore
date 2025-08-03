@@ -1,2 +1,2 @@
-# Keep Dockerfile for Railway deployment
-# .dockerignore 
+# Allow Nixpacks to handle the build
+# Remove any Docker references 

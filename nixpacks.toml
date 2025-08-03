@@ -1,12 +1,8 @@
 [phases.setup]
-nixPkgs = ["flutter", "python3", "git"]
+nixPkgs = ["flutter", "python3"]
 
 [phases.install]
-cmds = [
-  "flutter doctor",
-  "flutter config --enable-web",
-  "flutter pub get"
-]
+cmds = ["flutter pub get"]
 
 [phases.build]
 cmds = ["flutter build web --release"]
