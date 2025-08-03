@@ -1,5 +1,2 @@
-Dockerfile
-.dockerignore
-Dockerfile.*
-docker-compose.yml
-docker-compose.yaml 
+# Keep Dockerfile for Railway deployment
+# .dockerignore 
