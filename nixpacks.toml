@@ -16,5 +16,4 @@ cmds = [
 ]
 
 [start]
-cmd = "python3 -m http.server $PORT"
-workDir = "build/web" 
+cmd = "cd build/web && python3 -m http.server $PORT" 
