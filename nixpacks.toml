@@ -2,7 +2,10 @@
 nixPkgs = ["flutter", "python3"]
 
 [phases.install]
-cmds = ["flutter pub get"]
+cmds = [
+  "flutter config --enable-web",
+  "flutter pub get"
+]
 
 [phases.build]
 cmds = ["flutter build web --release"]
