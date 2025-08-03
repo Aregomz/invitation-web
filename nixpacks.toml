@@ -1,5 +1,6 @@
 [phases.setup]
 nixPkgs = ["flutter", "python3", "git"]
+env = { FLUTTER_VERSION = "3.32.8" }
 
 [phases.install]
 cmds = [
