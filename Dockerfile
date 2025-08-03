@@ -48,26 +48,15 @@ RUN rm -rf .dart_tool \
     && rm -rf $FLUTTER_HOME/bin/cache
 
 # Imagen final más pequeña
-FROM nginx:alpine
-COPY --from=build-env /app/build/web /usr/share/nginx/html
+FROM python:3.9-alpine
+COPY --from=build-env /app/build/web /app/web
 
-# Configuración de nginx optimizada
-RUN echo 'events { worker_connections 1024; }' > /etc/nginx/nginx.conf && \
-    echo 'http {' >> /etc/nginx/nginx.conf && \
-    echo '  include /etc/nginx/mime.types;' >> /etc/nginx/nginx.conf && \
-    echo '  server {' >> /etc/nginx/nginx.conf && \
-    echo '    listen $PORT;' >> /etc/nginx/nginx.conf && \
-    echo '    location / {' >> /etc/nginx/nginx.conf && \
-    echo '      root /usr/share/nginx/html;' >> /etc/nginx/nginx.conf && \
-    echo '      try_files $uri $uri/ /index.html;' >> /etc/nginx/nginx.conf && \
-    echo '    }' >> /etc/nginx/nginx.conf && \
-    echo '  }' >> /etc/nginx/nginx.conf && \
-    echo '}' >> /etc/nginx/nginx.conf
+WORKDIR /app
 
-# Script de inicio
+# Script de inicio simple
 RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'envsubst < /etc/nginx/nginx.conf > /tmp/nginx.conf' >> /start.sh && \
-    echo 'nginx -c /tmp/nginx.conf -g "daemon off;"' >> /start.sh && \
+    echo 'cd /app/web' >> /start.sh && \
+    echo 'python3 -m http.server $PORT' >> /start.sh && \
     chmod +x /start.sh
 
 EXPOSE $PORT
