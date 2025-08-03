@@ -7,14 +7,14 @@ The original deployment was failing because the Docker image size (4.2GB) exceed
 We've implemented several optimizations to reduce the image size:
 
 ### 1. Multi-stage Docker Build
-- Uses a pre-built Flutter image (`cirrusci/flutter:3.19.0`) for building
+- Uses Ubuntu 22.04 for building Flutter
 - Final stage only contains the built web files and nginx
 - Reduces image size significantly
 
 ### 2. Optimized Dependencies
 - Uses Alpine Linux for the final stage
-- Removed unnecessary packages and caches
-- Simplified build process
+- Minimal dependencies installation
+- Cleaned up package caches
 
 ### 3. Flutter Build Optimizations
 - Uses HTML renderer instead of CanvasKit
@@ -24,9 +24,9 @@ We've implemented several optimizations to reduce the image size:
 ## Files Changed
 
 ### `Dockerfile`
-- Uses `cirrusci/flutter:3.19.0` base image
+- Uses Ubuntu 22.04 base image
 - Multi-stage build with Alpine production
-- Avoids `flutter doctor` issues
+- Minimal dependency installation
 - Proper layer caching
 
 ### `nginx.conf`
@@ -35,10 +35,9 @@ We've implemented several optimizations to reduce the image size:
 - Proper caching headers
 - Security headers
 
-### `railway.json` & `railway.toml`
+### `railway.json`
 - Changed from Nixpacks to Dockerfile builder
-- Added deployment configuration
-- Health check configuration
+- Simplified deployment configuration
 
 ### `.dockerignore`
 - Excludes unnecessary files from build context
@@ -46,14 +45,26 @@ We've implemented several optimizations to reduce the image size:
 
 ## Deployment Steps
 
-### Option 1: Use the optimized build script
+### Option 1: Direct Railway deployment (Recommended)
 ```bash
-./build-optimized.sh
+# Install Railway CLI if not installed
+npm install -g @railway/cli
+
+# Login to Railway
+railway login
+
+# Deploy directly
+railway up
 ```
 
-### Option 2: Manual deployment
+### Option 2: Use the deployment script
 ```bash
-# Build the Docker image
+./deploy.sh
+```
+
+### Option 3: Manual deployment
+```bash
+# Build the Docker image locally (if Docker is available)
 docker build -t invitation-app:optimized .
 
 # Check image size
@@ -63,42 +74,41 @@ docker images invitation-app:optimized
 railway up
 ```
 
-### Option 3: Direct Railway deployment
-```bash
-# Deploy directly to Railway (will build on Railway's servers)
-railway up
-```
-
 ## Expected Results
 - Image size should be under 1GB (down from 4.2GB)
 - Faster build times
 - Better performance with nginx serving static files
-- No more `flutter doctor` errors
+- No more image not found errors
 
 ## Troubleshooting
+
+### If Railway deployment fails:
+1. Check Railway logs for specific error messages
+2. Ensure all required files are present
+3. Verify Railway CLI is installed and logged in
 
 ### If image is still too large:
 1. Check if all unnecessary files are excluded in `.dockerignore`
 2. Verify that the multi-stage build is working correctly
 3. Consider using the ultra-optimized `Dockerfile.optimized`
 
-### If build fails with flutter doctor:
-1. The new Dockerfile uses a pre-built Flutter image
-2. This should resolve all `flutter doctor` issues
+### If build fails with image not found:
+1. The new Dockerfile uses Ubuntu 22.04 which is always available
+2. This should resolve all image availability issues
 3. If still failing, check Railway logs for specific errors
 
-### If Railway deployment fails:
-1. Ensure Docker Desktop is running (for local testing)
-2. Check Railway logs for specific error messages
-3. Verify that all required files are present
-
 ## Monitoring
-- Use `docker images` to check image size
 - Monitor Railway logs for deployment status
 - Check application performance after deployment
-- Verify health check endpoint at `/`
+- Verify the application is accessible at the provided URL
 
 ## Alternative Dockerfiles
-- `Dockerfile.simple`: Uses pre-built Flutter image (recommended)
+- `Dockerfile.minimal`: Minimal Ubuntu-based build (current)
+- `Dockerfile.alternative`: Uses OpenJDK base image
 - `Dockerfile.optimized`: Ultra-optimized version with security features
-- `Dockerfile`: Standard optimized version 
+
+## Quick Start
+1. Install Railway CLI: `npm install -g @railway/cli`
+2. Login: `railway login`
+3. Deploy: `railway up`
+4. Check your app at the provided URL 
