@@ -1,9 +1,11 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "flutter build web --release"
   },
   "deploy": {
-    "startCommand": "cd build/web && python3 -m http.server $PORT"
+    "startCommand": "cd build/web && python3 -m http.server $PORT",
+    "restartPolicyType": "ON_FAILURE"
   }
 } 
