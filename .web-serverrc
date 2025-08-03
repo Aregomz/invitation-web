@@ -1,0 +1,5 @@
+{
+  "port": 8080,
+  "directory": "build/web",
+  "spa": true
+} 
