@@ -1,0 +1,13 @@
+# Flutter ignore file
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.lock
+*.iml
+.idea/
+.vscode/
+*.md 
