@@ -7,7 +7,6 @@ cmds = [
   "flutter doctor -v",
   "flutter config --enable-web",
   "flutter --version",
-  "flutter config --list",
   "flutter pub get"
 ]
 
