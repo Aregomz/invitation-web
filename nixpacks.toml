@@ -12,4 +12,5 @@ cmds = [
 cmds = ["flutter build web --release"]
 
 [start]
-cmd = "sh -c 'cd build/web && python3 -m http.server $PORT'" 
+cmd = "python3 -m http.server $PORT"
+workDir = "build/web" 

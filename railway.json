@@ -5,6 +5,7 @@
     "buildCommand": "flutter build web --release"
   },
   "deploy": {
-    "startCommand": "sh -c 'cd build/web && python3 -m http.server $PORT'"
+    "startCommand": "python3 -m http.server $PORT",
+    "workDir": "build/web"
   }
 } 
