@@ -1,21 +1,15 @@
 [phases.setup]
-nixPkgs = ["flutter", "python3", "git"]
+nixPkgs = ["flutter", "python3"]
 
 [phases.install]
 cmds = [
-  "flutter doctor -v",
   "flutter config --enable-web",
-  "flutter --version",
   "flutter pub get"
 ]
 
 [phases.build]
 cmds = [
-  "flutter doctor -v",
-  "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=true --no-tree-shake-icons",
-  "rm -rf .dart_tool",
-  "rm -rf build/web/assets/packages",
-  "find build/web -name '*.map' -delete"
+  "flutter build web --release --no-tree-shake-icons"
 ]
 
 [start]

@@ -24,4 +24,27 @@ test/
 docs/
 # Temporary files
 tmp/
-temp/ 
+temp/
+# Platform specific
+android/
+ios/
+windows/
+macos/
+linux/
+# Git
+.git/
+# IDE
+.idea/
+.vscode/
+*.iml
+# Documentation
+*.md
+README.md
+# Railway files
+railway.json
+railway.toml
+nixpacks.toml
+# Other
+build.sh
+.web-serverrc
+Procfile 
