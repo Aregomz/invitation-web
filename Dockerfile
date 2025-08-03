@@ -36,11 +36,8 @@ COPY . .
 # Build the app
 RUN flutter build web --release
 
-# Change to the build directory
-WORKDIR /app/build/web
-
 # Expose port
 EXPOSE 8080
 
-# Start the app directly from the build directory
-CMD ["python3", "-m", "http.server", "8080"] 
+# Start the app using shell to handle directory change
+CMD ["sh", "-c", "cd /app/build/web && python3 -m http.server 8080"] 
