@@ -1,16 +1,19 @@
 [phases.setup]
 nixPkgs = ["flutter", "python3", "git"]
-env = { FLUTTER_VERSION = "3.32.8" }
+env = { FLUTTER_VERSION = "3.16.9" }
 
 [phases.install]
 cmds = [
-  "flutter doctor",
+  "flutter doctor -v",
   "flutter config --enable-web",
-  "flutter pub get"
+  "flutter pub get",
+  "flutter --version"
 ]
 
 [phases.build]
-cmds = ["flutter build web --release"]
+cmds = [
+  "flutter build web --release --web-renderer html"
+]
 
 [start]
 cmd = "python3 -m http.server $PORT"
