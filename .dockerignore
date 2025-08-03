@@ -11,4 +11,28 @@ Procfile
 *.md
 .idea/
 .vscode/
-*.iml 
+*.iml
+# Flutter specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+# Build artifacts
+build/
+*.lock
+# IDE files
+*.swp
+*.swo
+*~
+# OS files
+.DS_Store
+Thumbs.db
+# Logs
+*.log
+# Test files
+test/
+# Documentation
+docs/
+# Temporary files
+tmp/
+temp/ 

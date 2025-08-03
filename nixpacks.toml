@@ -12,7 +12,10 @@ cmds = [
 [phases.build]
 cmds = [
   "flutter doctor -v",
-  "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=true --no-tree-shake-icons"
+  "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=true --no-tree-shake-icons",
+  "rm -rf .dart_tool",
+  "rm -rf build/web/assets/packages",
+  "find build/web -name '*.map' -delete"
 ]
 
 [start]
