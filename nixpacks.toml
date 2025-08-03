@@ -1,18 +1,24 @@
 [phases.setup]
 nixPkgs = ["flutter", "python3", "git"]
-env = { FLUTTER_VERSION = "3.16.9" }
+env = { 
+  FLUTTER_VERSION = "3.13.9",
+  FLUTTER_WEB_USE_SKIA = "true"
+}
 
 [phases.install]
 cmds = [
   "flutter doctor -v",
   "flutter config --enable-web",
   "flutter pub get",
-  "flutter --version"
+  "flutter --version",
+  "flutter config --list"
 ]
 
 [phases.build]
 cmds = [
-  "flutter build web --release --web-renderer html"
+  "flutter clean",
+  "flutter pub get",
+  "flutter build web --release --web-renderer html --no-tree-shake-icons"
 ]
 
 [start]
