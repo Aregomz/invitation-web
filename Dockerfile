@@ -53,11 +53,7 @@ COPY --from=build-env /app/build/web /app/web
 
 WORKDIR /app
 
-# Script de inicio simple
-RUN echo '#!/bin/sh' > /start.sh && \
-    echo 'cd /app/web' >> /start.sh && \
-    echo 'python3 -m http.server $PORT' >> /start.sh && \
-    chmod +x /start.sh
+WORKDIR /app/web
 
-EXPOSE $PORT
-CMD ["/start.sh"] 
+EXPOSE 8080
+CMD ["python3", "-m", "http.server", "8080"] 
