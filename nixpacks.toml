@@ -12,7 +12,7 @@ cmds = [
 [phases.build]
 cmds = [
   "flutter doctor -v",
-  "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=true"
+  "flutter build web --release --web-renderer html --dart-define=FLUTTER_WEB_USE_SKIA=true --no-tree-shake-icons"
 ]
 
 [start]
