@@ -19,7 +19,6 @@ Procfile
 .packages
 # Build artifacts
 build/
-*.lock
 # IDE files
 *.swp
 *.swo
@@ -35,4 +34,10 @@ test/
 docs/
 # Temporary files
 tmp/
-temp/ 
+temp/
+# Platform specific
+android/
+ios/
+windows/
+macos/
+linux/ 
