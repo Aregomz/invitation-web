@@ -1,2 +1,6 @@
-# Allow Nixpacks to handle the build
-# Remove any Docker references 
+# Force Railway to use Nixpacks instead of Docker
+Dockerfile
+.dockerignore
+Dockerfile.*
+docker-compose.yml
+docker-compose.yaml 
