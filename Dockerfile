@@ -37,7 +37,25 @@ RUN flutter build web --release --web-renderer html
 # Serve the app
 FROM nginx:alpine
 COPY --from=build-env /app/build/web /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"] 
+# Create a simple nginx config
+RUN echo 'events { worker_connections 1024; }' > /etc/nginx/nginx.conf && \
+    echo 'http {' >> /etc/nginx/nginx.conf && \
+    echo '  include /etc/nginx/mime.types;' >> /etc/nginx/nginx.conf && \
+    echo '  server {' >> /etc/nginx/nginx.conf && \
+    echo '    listen $PORT;' >> /etc/nginx/nginx.conf && \
+    echo '    location / {' >> /etc/nginx/nginx.conf && \
+    echo '      root /usr/share/nginx/html;' >> /etc/nginx/nginx.conf && \
+    echo '      try_files $uri $uri/ /index.html;' >> /etc/nginx/nginx.conf && \
+    echo '    }' >> /etc/nginx/nginx.conf && \
+    echo '  }' >> /etc/nginx/nginx.conf && \
+    echo '}' >> /etc/nginx/nginx.conf
+
+# Create startup script
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'envsubst < /etc/nginx/nginx.conf > /tmp/nginx.conf' >> /start.sh && \
+    echo 'nginx -c /tmp/nginx.conf -g "daemon off;"' >> /start.sh && \
+    chmod +x /start.sh
+
+EXPOSE $PORT
+CMD ["/start.sh"] 
