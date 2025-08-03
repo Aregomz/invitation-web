@@ -39,5 +39,5 @@ RUN flutter build web --release
 # Expose port
 EXPOSE 8080
 
-# Start the app
-CMD ["python3", "-m", "http.server", "8080", "--directory", "build/web"] 
+# Start the app - use shell format to avoid cd issues
+CMD python3 -m http.server 8080 --directory build/web 
