@@ -1,6 +1,9 @@
+# Git
 .git
 .gitignore
 README.md
+
+# Railway files
 .railwayignore
 railway.json
 railway.toml
@@ -8,36 +11,51 @@ nixpacks.toml
 build.sh
 .web-serverrc
 Procfile
+
+# Documentation
 *.md
+
+# IDE files
 .idea/
 .vscode/
 *.iml
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
 # Flutter specific
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+
 # Build artifacts
 build/
-# IDE files
-*.swp
-*.swo
-*~
-# OS files
-.DS_Store
-Thumbs.db
+
 # Logs
 *.log
+
 # Test files
 test/
+
 # Documentation
 docs/
+
 # Temporary files
 tmp/
 temp/
-# Platform specific
+
+# Platform specific (not needed for web)
 android/
 ios/
 windows/
 macos/
-linux/ 
+linux/
+
+# Docker files (not needed in build context)
+Dockerfile
+.dockerignore 

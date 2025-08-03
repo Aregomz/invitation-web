@@ -9,9 +9,13 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "flutter build web --release --no-tree-shake-icons"
+  "flutter build web --release --no-tree-shake-icons --web-renderer html"
 ]
 
 [start]
 cmd = "python3 -m http.server $PORT"
-workDir = "build/web" 
+workDir = "build/web"
+
+[variables]
+FLUTTER_WEB_RENDERER = "html"
+FLUTTER_BUILD_MODE = "release" 

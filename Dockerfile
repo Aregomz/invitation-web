@@ -1,0 +1,55 @@
+# Optimized multi-stage build for Flutter web app
+FROM ubuntu:22.04 AS flutter-builder
+
+# Install only essential dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    zip \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Set up Flutter
+ENV FLUTTER_HOME="/opt/flutter"
+ENV PATH="$FLUTTER_HOME/bin:$PATH"
+
+# Download Flutter
+RUN git clone https://github.com/flutter/flutter.git $FLUTTER_HOME
+RUN flutter doctor
+RUN flutter config --enable-web
+
+# Set up working directory
+WORKDIR /app
+
+# Copy pubspec files first for better caching
+COPY pubspec.yaml pubspec.lock ./
+
+# Get dependencies
+RUN flutter pub get
+
+# Copy source code
+COPY . .
+
+# Build the app with optimizations
+RUN flutter build web --release --web-renderer html --no-tree-shake-icons --dart-define=FLUTTER_WEB_USE_SKIA=false
+
+# Production stage - use alpine for smaller size
+FROM nginx:alpine
+
+# Remove unnecessary files from nginx
+RUN rm -rf /usr/share/nginx/html/* \
+    && rm -rf /var/cache/apk/*
+
+# Copy only the built web files
+COPY --from=flutter-builder /app/build/web /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port
+EXPOSE 8080
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"] 
