@@ -36,11 +36,11 @@ COPY . .
 # Build the app
 RUN flutter build web --release
 
-# Make startup script executable
-RUN chmod +x start.sh
+# Change to the build directory
+WORKDIR /app/build/web
 
 # Expose port
 EXPOSE 8080
 
-# Start the app using the script
-CMD ["./start.sh"] 
+# Start the app directly from the build directory
+CMD ["python3", "-m", "http.server", "8080"] 
